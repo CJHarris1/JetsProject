@@ -22,7 +22,7 @@ public class AirField {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("AirField [fleet=").append(fleet).append("]");
+		builder.append("Harris AirField currently has these jets in the fleet: \n").append(fleet);
 		return builder.toString();
 	}
 

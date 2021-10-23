@@ -16,13 +16,18 @@ public abstract class Jet {
 	}
 	
 	public void fly() {
-//		Jets have a fly() method that prints out the jet details 
-//		and the amount of time the jet can fly until it runs out of fuel 
-//		(based on speed and range).
+		//trimmed the double to 2 decimal places for cleaner output
+		int timeInAir = (int)(this.range / this.speed * 100.0);
+		double timeInAirDouble = timeInAir / 100.0;
+		
+		System.out.println("The " + this.model + " can fly for " + timeInAirDouble + " hours at max speed.");
 	}
 	
 	public double getSpeedInMach() {
-		 return 0;
+		//trimmed the double to 2 decimal places for cleaner output
+		int speedInMach = (int) (this.speed / 767 * 100);
+		double speedInMachDouble = speedInMach / 100.0; //conversion from mph to speed of sound
+		 return speedInMachDouble;
 	}
 
 	public String getModel() {
@@ -60,8 +65,8 @@ public abstract class Jet {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Jet [model=").append(model).append(", speed=").append(speed).append(", range=").append(range)
-				.append(", price=").append(price).append("]");
+		builder.append("Jet model: ").append(model).append("\n speed in mph: ").append(speed).append("\n range in miles: ").append(range)
+				.append("\n price $").append(price).append("\n\n");
 		return builder.toString();
 	}
 

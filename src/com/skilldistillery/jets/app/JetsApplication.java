@@ -77,14 +77,8 @@ public class JetsApplication {
 					+ "7) Add a jet to Fleet \n"
 					+ "8) Remove a jet from Fleet \n"
 					+ "9) Quit");
-			userChoice(wantsToQuit);
-		}
-	}
 	
-	private boolean userChoice(boolean wantsToQuit) {
 		String choice = scanner.nextLine();
-		boolean madeValidChoice = false;
-		while(!madeValidChoice) {
 			switch(choice) {
 			case "1":
 				listFleet();
@@ -93,10 +87,10 @@ public class JetsApplication {
 				flyAll();
 				break;
 			case "3":
-				fastestJet();
+				System.out.println("The fastest jet information: \n" + fastestJet() + "\n");
 				break;
 			case "4":
-				longestRange();
+				System.out.println("The jet with the furthest range information: \n" + longestRange()); ;
 				break;
 			case "5":
 				stealthMode();
@@ -111,34 +105,79 @@ public class JetsApplication {
 				removeJet();
 				break;
 			case "9":
-				madeValidChoice = true;
 				wantsToQuit = true;
 			default:
 				System.out.println("Invalid choice, try again.");
 				break;
 			}
 		}
-		return wantsToQuit;
 	}
 	
 	private void listFleet() {
-		
+		//calls the toString for each jet currently in the airField
+		System.out.println(airField.toString());
+//		List <Jet> fleet = airField.getFleet();
+//		for (Jet jet : fleet) {
+//			System.out.println(jet);
+//		}
 	}
 	
 	private void flyAll() {
-		
+		//iterates through each jet and calls its fly method
+		List <Jet> fleet = airField.getFleet();
+		for (Jet jet : fleet) {
+			jet.fly();
+		}
+		System.out.println();
 	}
 	
-	private void fastestJet() {
+	private String fastestJet() {
+		double speed = 0;                         // placeholder to compare each speed to the next
+		String fastest = null;                    // placeholder toString for the fastest
+		double mach = 0;                          // placeholder for mach conversion
+		String fastestAndMach = null;             // to be returned with fastest jet and mach conversion
 		
+		//checks each jet in the fleet and compares speeds
+		List <Jet> fleet = airField.getFleet();
+		for(int i = 0; i < fleet.size(); i++) {
+			double currentSpeed = fleet.get(i).getSpeed();     //speed of jet in current index
+			if(currentSpeed > speed) {
+				speed = currentSpeed;
+				fastest = fleet.get(i).toString();             //current fastest toString
+				mach = fleet.get(i).getSpeedInMach();          //current fastest mach conversion
+				fastestAndMach = fastest + "Which converts to mach " + mach + "!";
+			}
+		}
+		return fastestAndMach;
 	}
 	
-	private void longestRange() {
+	private String longestRange() {
+		double range = 0;                         // placeholder to compare each range to the next
+		String longestRange = null;                    //placeholder toString for the longest range
 		
+		//checks each jet in the fleet and compares range
+		List <Jet> fleet = airField.getFleet();
+		for(int i = 0; i < fleet.size(); i++) {
+			double currentRange = fleet.get(i).getRange();         //range of jet in current index
+			if(currentRange > range) {
+				range = currentRange;
+				longestRange = fleet.get(i).toString();  		   //current longestRange toString
+			}
+		}
+		return longestRange;
 	}
+		
 	
 	private void stealthMode() {
 		
+		//checks each jet in the fleet and compares range
+//		List <Jet> fleet = airField.getFleet();
+//		for(int i = 0; i < fleet.size(); i++) {
+//			if(fleet.get(i) instanceof FighterJet ) {
+//				Jet stealthPlane = (StealthPlane) fleet.get(i);
+//				//stealthPlane.offTheRadar();
+//			}
+//		}
 	}
 	
 	private void dogFight() {
