@@ -68,15 +68,15 @@ public class JetsApplication {
 		boolean wantsToQuit = false;
 		while(!wantsToQuit) {
 			System.out.println("Which option would you like? \n"
-					+ "1) List fleet \n"
-					+ "2) Fly all jets \n"
-					+ "3) View fastest jet \n"
-					+ "4) View jet with longest range \n"
-					+ "5) Enter Stealth mode \n"
-					+ "6) Dogfight! \n"
-					+ "7) Add a jet to Fleet \n"
-					+ "8) Remove a jet from Fleet \n"
-					+ "9) Quit");
+							 + "1) List fleet \n"
+							 + "2) Fly all jets \n"
+							 + "3) View fastest jet \n"
+							 + "4) View jet with longest range \n"
+							 + "5) Enter Stealth mode \n"
+							 + "6) Dogfight! \n"
+							 + "7) Add a jet to Fleet \n"
+							 + "8) Remove a jet from Fleet \n"
+							 + "9) Quit");
 	
 		String choice = scanner.nextLine();
 			switch(choice) {
@@ -94,12 +94,14 @@ public class JetsApplication {
 				break;
 			case "5":
 				stealthMode();
+				System.out.println(); // adding a space between the output and the next menu loop
 				break;
 			case "6":
 				dogFight();
+				System.out.println(); // adding a space between the output and the next menu loop
 				break;
 			case "7":
-				addJet();
+				addJetMenu();
 				break;
 			case "8":
 				removeJet();
@@ -167,26 +169,74 @@ public class JetsApplication {
 		return longestRange;
 	}
 		
-	
 	private void stealthMode() {
-		
-		//checks each jet in the fleet and compares range
-//		List <Jet> fleet = airField.getFleet();
-//		for(int i = 0; i < fleet.size(); i++) {
-//			if(fleet.get(i) instanceof FighterJet ) {
-//				Jet stealthPlane = (StealthPlane) fleet.get(i);
-//				//stealthPlane.offTheRadar();
-//			}
-//		}
+//		checks each jet in the fleet is a stealthPlane and then calls the interface
+		String name = null;
+		List <Jet> fleet = airField.getFleet();
+		for(int i = 0; i < fleet.size(); i++) {
+			if(fleet.get(i) instanceof StealthPlane ) {
+				name = fleet.get(i).getModel();
+				StealthPlane stealthPlane = (StealthPlane) fleet.get(i);    //Downcast in order to call the method for stealthPlane
+				 System.out.print(name + ": ");
+				 stealthPlane.offTheRadar();
+			}
+		}
 	}
 	
 	private void dogFight() {
+//		checks each jet in the fleet is a stealthPlane and then calls the interface
+		String name = null;
+		List <Jet> fleet = airField.getFleet();
+		for(int i = 0; i < fleet.size(); i++) {
+			if(fleet.get(i) instanceof FighterJet ) {
+				name = fleet.get(i).getModel();
+				FighterJet fighterJet = (FighterJet) fleet.get(i);    //Downcast in order to call the method for stealthPlane
+				System.out.print(name + ": ");
+				 fighterJet.fight();
+			}
+		}
+	}
+	
+	private void addJetMenu() {
+		boolean wantsToAddJet = true;
+		while (wantsToAddJet) {
+			System.out.println("Which type of Jet would you like to add? \n"
+							 + "1) Fighter Jet \n"
+							 + "2) Stealth Plane \n"
+							 + "3) Passenger Plane \n"
+							 + "4) Quit");
+			String whichJet = scanner.nextLine();
+			
+			switch(whichJet) {
+			case "1":
+				addFighterJet();
+				break;
+			case "2":
+				addStealthPlane();
+				break;
+			case "3":
+				addPassengerPlane();
+				break;
+			case "4":
+				wantsToAddJet = false;
+			default:
+				System.out.println("Invalid choice, try again.");
+			}
+		}
+	}
+		
+	private void addFighterJet() {
 		
 	}
 	
-	private void addJet() {
+	private void addStealthPlane() {
 		
 	}
+	
+	private void addPassengerPlane() {
+		
+	}
+	
 	
 	private void removeJet() {
 		
