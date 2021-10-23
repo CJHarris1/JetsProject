@@ -1,5 +1,5 @@
-Stealth,Fa-37 Stealth Talon,1600,4000,500_000_000
-Stealth,F-117 Nighthawk,684,1069,42_000_000
+StealthPlane,Fa-37 Stealth Talon,1600,4000,500_000_000
+StealthPlane,F-117 Nighthawk,684,1069,42_000_000
 FighterJet,F-16,1500,2622,64_000_000
 FighterJet,F-22,1500,1839,334_000_000
-PassengerJet,614,8357,386_800_000
+PassengerJet,Boeing 747,614,8357,386_800_000

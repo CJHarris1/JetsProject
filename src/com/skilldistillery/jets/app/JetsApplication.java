@@ -65,6 +65,91 @@ public class JetsApplication {
 	}
 	
 	private void displayUserMenu() {
+		boolean wantsToQuit = false;
+		while(!wantsToQuit) {
+			System.out.println("Which option would you like? \n"
+					+ "1) List fleet \n"
+					+ "2) Fly all jets \n"
+					+ "3) View fastest jet \n"
+					+ "4) View jet with longest range \n"
+					+ "5) Enter Stealth mode \n"
+					+ "6) Dogfight! \n"
+					+ "7) Add a jet to Fleet \n"
+					+ "8) Remove a jet from Fleet \n"
+					+ "9) Quit");
+			userChoice(wantsToQuit);
+		}
+	}
+	
+	private boolean userChoice(boolean wantsToQuit) {
+		String choice = scanner.nextLine();
+		boolean madeValidChoice = false;
+		while(!madeValidChoice) {
+			switch(choice) {
+			case "1":
+				listFleet();
+				break;
+			case "2":
+				flyAll();
+				break;
+			case "3":
+				fastestJet();
+				break;
+			case "4":
+				longestRange();
+				break;
+			case "5":
+				stealthMode();
+				break;
+			case "6":
+				dogFight();
+				break;
+			case "7":
+				addJet();
+				break;
+			case "8":
+				removeJet();
+				break;
+			case "9":
+				madeValidChoice = true;
+				wantsToQuit = true;
+			default:
+				System.out.println("Invalid choice, try again.");
+				break;
+			}
+		}
+		return wantsToQuit;
+	}
+	
+	private void listFleet() {
+		
+	}
+	
+	private void flyAll() {
+		
+	}
+	
+	private void fastestJet() {
+		
+	}
+	
+	private void longestRange() {
+		
+	}
+	
+	private void stealthMode() {
+		
+	}
+	
+	private void dogFight() {
+		
+	}
+	
+	private void addJet() {
+		
+	}
+	
+	private void removeJet() {
 		
 	}
 	
