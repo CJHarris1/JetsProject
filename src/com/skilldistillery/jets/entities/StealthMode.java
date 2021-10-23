@@ -1,5 +1,6 @@
 package com.skilldistillery.jets.entities;
 
-public class StealthMode {
+interface StealthMode {
 
+	public void offTheRadar();
 }
