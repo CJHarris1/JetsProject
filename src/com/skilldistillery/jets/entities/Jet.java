@@ -16,7 +16,9 @@ public abstract class Jet {
 	}
 	
 	public void fly() {
-		
+//		Jets have a fly() method that prints out the jet details 
+//		and the amount of time the jet can fly until it runs out of fuel 
+//		(based on speed and range).
 	}
 	
 	public double getSpeedInMach() {
