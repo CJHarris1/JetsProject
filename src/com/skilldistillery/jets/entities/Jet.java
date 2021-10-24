@@ -20,7 +20,7 @@ public abstract class Jet {
 		int timeInAir = (int)(this.range / this.speed * 100.0);
 		double timeInAirDouble = timeInAir / 100.0;
 		
-		System.out.println("The " + this.model + " can fly for " + timeInAirDouble + " hours at max speed.");
+		System.out.println("The " + this.model + " can fly for " + timeInAirDouble + " hours at " + this.speed + " miles per hour, covering about " + this.range + " miles!");
 	}
 	
 	public double getSpeedInMach() {

@@ -17,6 +17,7 @@ import com.skilldistillery.jets.entities.StealthPlane;
 public class JetsApplication {
 	private AirField airField = new AirField();
 	private Scanner scanner = new Scanner(System.in);
+	private List<Jet> jets = new ArrayList<>();
 	
 	
 	public JetsApplication() {}
@@ -26,6 +27,7 @@ public class JetsApplication {
 		JetsApplication jetApp = new JetsApplication();
 		
 		jetApp.launch();
+		System.out.println("Welcome to the Harris air field!");
 		jetApp.displayUserMenu();
 		jetApp.cleanUp();
 	}
@@ -35,7 +37,6 @@ public class JetsApplication {
 		try ( BufferedReader bufIn = new BufferedReader(new FileReader("jets.txt")) ) {
 			  String line;
 			  Jet j;
-			  List<Jet> jets = new ArrayList<>();    //List to add each jet from the file
 			  while ((line = bufIn.readLine()) != null) {
 				  String[] jetRecord = line.split(",");
 				  String type  = jetRecord[0];
@@ -76,11 +77,12 @@ public class JetsApplication {
 							 + "6) Dogfight! \n"
 							 + "7) Add a jet to Fleet \n"
 							 + "8) Remove a jet from Fleet \n"
-							 + "9) Quit");
+							 + "9) Quit \n");
 	
 		String choice = scanner.nextLine();
 			switch(choice) {
 			case "1":
+				System.out.println("Harris AirField currently has these jets in the fleet: \n");
 				listFleet();
 				break;
 			case "2":
@@ -101,13 +103,17 @@ public class JetsApplication {
 				System.out.println(); // adding a space between the output and the next menu loop
 				break;
 			case "7":
-				addJetMenu();
+				addJet();
+				addAnotherJet();
 				break;
 			case "8":
 				removeJet();
+				removeAnotherJet();
 				break;
 			case "9":
+				System.out.println("Thank you for visiting the Harris air field!");
 				wantsToQuit = true;
+				break;
 			default:
 				System.out.println("Invalid choice, try again.");
 				break;
@@ -117,11 +123,10 @@ public class JetsApplication {
 	
 	private void listFleet() {
 		//calls the toString for each jet currently in the airField
-		System.out.println(airField.toString());
-//		List <Jet> fleet = airField.getFleet();
-//		for (Jet jet : fleet) {
-//			System.out.println(jet);
-//		}
+		List <Jet> fleet = airField.getFleet();
+		for (Jet jet : fleet) {
+			System.out.println(jet);
+		}
 	}
 	
 	private void flyAll() {
@@ -170,7 +175,7 @@ public class JetsApplication {
 	}
 		
 	private void stealthMode() {
-//		checks each jet in the fleet is a stealthPlane and then calls the interface
+//		checks each jet in the fleet if it is a stealthPlane and then calls the interface method
 		String name = null;
 		List <Jet> fleet = airField.getFleet();
 		for(int i = 0; i < fleet.size(); i++) {
@@ -184,62 +189,218 @@ public class JetsApplication {
 	}
 	
 	private void dogFight() {
-//		checks each jet in the fleet is a stealthPlane and then calls the interface
+//		checks each jet in the fleet if it is a fighter jet and then calls the interface method
 		String name = null;
 		List <Jet> fleet = airField.getFleet();
 		for(int i = 0; i < fleet.size(); i++) {
 			if(fleet.get(i) instanceof FighterJet ) {
 				name = fleet.get(i).getModel();
-				FighterJet fighterJet = (FighterJet) fleet.get(i);    //Downcast in order to call the method for stealthPlane
+				FighterJet fighterJet = (FighterJet) fleet.get(i);    //Downcast in order to call the method for fighter jet
 				System.out.print(name + ": ");
 				 fighterJet.fight();
 			}
 		}
 	}
 	
-	private void addJetMenu() {
+	private void addJet() {
 		boolean wantsToAddJet = true;
+		String choseJet = null;
+		
 		while (wantsToAddJet) {
-			System.out.println("Which type of Jet would you like to add? \n"
-							 + "1) Fighter Jet \n"
-							 + "2) Stealth Plane \n"
-							 + "3) Passenger Plane \n"
-							 + "4) Quit");
-			String whichJet = scanner.nextLine();
+			boolean validJet = false;
+			while(!validJet) {
+				//loops to get valid choice of jet type and assigns choice to chose jet
+				System.out.println("Which type of Jet is this? \n"
+						 + "1) Fighter Jet \n"
+						 + "2) Stealth Plane \n"
+						 + "3) Passenger Jet \n");
+				String whichJet = scanner.nextLine();
+				switch(whichJet) {
+				case "1":
+					choseJet = "fighter";
+					validJet = true;
+					break;
+				case "2":
+					choseJet = "stealth";
+					validJet = true;
+					break;
+				case "3":
+					choseJet = "passenger";
+					validJet = true;
+					break;
+				default:
+					System.out.println("Invalid choice, try again.");
+				}
+			}
+			//retrieves all constructor fields to create new instance of a jet
+			String model = getModelNewJet();
+			double speed = getSpeedNewJet();
+			int range = getRangeNewJet();
+			long price = getPriceNewJet();
 			
-			switch(whichJet) {
+			//instantiates a jet depending on which type
+			switch(choseJet) {
+			case "fighter":
+				Jet fighter = new FighterJet(model, speed, range, price);
+				jets.add(fighter);
+				wantsToAddJet = false;
+				break;
+			case "stealth":
+				Jet stealth = new StealthPlane(model, speed, range, price);
+				jets.add(stealth);
+				wantsToAddJet = false;
+				break;
+			case "passenger":
+				Jet passenger = new PassengerJet(model, speed, range, price);
+				jets.add(passenger);
+				wantsToAddJet = false;
+				break;
+			}
+		}
+	}
+	
+	private String getModelNewJet() {
+		String model = null;
+		boolean validModel = false;
+		
+		while(!validModel) {
+			System.out.print("What is the model of the Jet? ");
+			try {
+				model = scanner.nextLine();
+				validModel = true;
+			} catch (Exception e) {
+				System.out.println("Invalid input, try again.");
+				scanner.nextLine();
+			}
+		}
+		return model;
+	}
+	
+	
+	private double getSpeedNewJet() {
+		double speed = 0;
+		boolean validSpeed = false;
+		
+		while(!validSpeed) {
+			System.out.print("What is the speed of the Jet in mph? ");
+			try {
+				speed = scanner.nextDouble();
+				scanner.nextLine(); // flush
+				validSpeed = true;
+				
+			} catch (Exception e) {
+				System.out.println("Invalid input, try again.");
+				scanner.nextLine();
+			}
+		}
+		return speed;
+	}
+	
+	
+	private int getRangeNewJet() {
+		int range = 0;
+		boolean validRange = false;
+		
+		while(!validRange) {
+			System.out.print("What is the range of this Jet in miles? ");
+			try {
+				range = scanner.nextInt();
+				scanner.nextLine(); // flush
+				validRange = true;
+				
+			} catch (Exception e) {
+				System.out.println("Invalid input, try again.");
+				scanner.nextLine();
+			}
+		}
+		return range;
+	}
+	
+
+	private long getPriceNewJet() {
+		long price = 0;
+		boolean validPrice = false;
+		
+		while(!validPrice) {
+			System.out.print("What is the dollar ammount of this Jet? ");
+			try {
+				price = scanner.nextLong();
+				scanner.nextLine(); // flush
+				validPrice = true;
+				
+			} catch (Exception e) {
+				System.out.println("Invalid input, try again.");
+				scanner.nextLine();			
+			}
+		}
+		return price;
+	}
+	
+	
+	private void addAnotherJet() {
+		// takes user input and either adds another jet, or goes back to main menu
+		boolean addAnother = true;
+		while(addAnother) {
+			System.out.println("Jet has been added, would you like to add another? \n"
+							 + "1) Yes, add another Jet \n"
+							 + "2) No, take me back to the main menu \n");
+			String addAnotherJet = scanner.nextLine();
+	
+			switch(addAnotherJet) {
 			case "1":
-				addFighterJet();
+				addJet();
 				break;
 			case "2":
-				addStealthPlane();
+				addAnother = false;
 				break;
-			case "3":
-				addPassengerPlane();
-				break;
-			case "4":
-				wantsToAddJet = false;
 			default:
 				System.out.println("Invalid choice, try again.");
 			}
 		}
 	}
-		
-	private void addFighterJet() {
-		
-	}
-	
-	private void addStealthPlane() {
-		
-	}
-	
-	private void addPassengerPlane() {
-		
-	}
 	
 	
 	private void removeJet() {
+		int whichJetToRemove = -1;
+		boolean removedJet = false;
 		
+		while(!removedJet) {
+			System.out.println("Which Jet would you like to remove? ");
+			for(int i = 0; i < airField.getFleet().size(); i++ ) {                    
+				System.out.println("" + (i + 1) + ") " + airField.getFleet().get(i));  //prints out each jet in the fleet along with a number index for user to choose
+				}
+			try {
+				whichJetToRemove = scanner.nextInt();
+				scanner.nextLine();
+				airField.getFleet().remove(whichJetToRemove - 1);  // removes jet at index user chose
+				removedJet = true;
+				
+			} catch (Exception e) {
+				System.out.println("Invalid input, try again.");
+			}
+		}
+	}
+	
+	private void removeAnotherJet() {
+		// takes user input and either removes another jet, or goes back to main menu
+		boolean removeAnother = true;
+		while(removeAnother) {
+			System.out.println("Jet has been removed, would you like to remove another? \n"
+							 + "1) Yes, remove another Jet \n"
+							 + "2) No, take me back to the main menu \n");
+			String removeAnotherJet = scanner.nextLine();
+	
+			switch(removeAnotherJet) {
+			case "1":
+				removeJet();
+				break;
+			case "2":
+				removeAnother = false;
+				break;
+			default:
+				System.out.println("Invalid choice, try again.");
+			}
+		}
 	}
 	
 	private void cleanUp() {
