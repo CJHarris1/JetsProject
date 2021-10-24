@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class AirField {
 	private List<Jet> fleet;
-	
+
 	public AirField() {
 		fleet = new ArrayList<>();
 	}
@@ -42,7 +42,5 @@ public class AirField {
 		AirField other = (AirField) obj;
 		return Objects.equals(fleet, other.fleet);
 	}
-	
-	
-	
+
 }

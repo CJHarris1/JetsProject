@@ -7,27 +7,28 @@ public abstract class Jet {
 	private double speed;
 	private int range;
 	private long price;
-	
+
 	public Jet(String model, double speed, int range, long price) {
 		this.model = model;
 		this.speed = speed;
 		this.range = range;
 		this.price = price;
 	}
-	
+
 	public void fly() {
-		//trimmed the double to 2 decimal places for cleaner output
-		int timeInAir = (int)(this.range / this.speed * 100.0);
+		// trimmed the double to 2 decimal places for cleaner output
+		int timeInAir = (int) (this.range / this.speed * 100.0);
 		double timeInAirDouble = timeInAir / 100.0;
-		
-		System.out.println("The " + this.model + " can fly for " + timeInAirDouble + " hours at " + this.speed + " miles per hour, covering about " + this.range + " miles!");
+
+		System.out.println("The " + this.model + " can fly for " + timeInAirDouble + " hours at " + this.speed
+				+ " miles per hour, covering about " + this.range + " miles!");
 	}
-	
+
 	public double getSpeedInMach() {
-		//trimmed the double to 2 decimal places for cleaner output
+		// trimmed the double to 2 decimal places for cleaner output
 		int speedInMach = (int) (this.speed / 767 * 100);
-		double speedInMachDouble = speedInMach / 100.0; //conversion from mph to speed of sound
-		 return speedInMachDouble;
+		double speedInMachDouble = speedInMach / 100.0; // conversion from mph to speed of sound
+		return speedInMachDouble;
 	}
 
 	public String getModel() {
@@ -65,8 +66,8 @@ public abstract class Jet {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Jet model: ").append(model).append("\n speed in mph: ").append(speed).append("\n range in miles: ").append(range)
-				.append("\n price $").append(price).append("\n\n");
+		builder.append("Jet model: ").append(model).append("\n speed in mph: ").append(speed)
+				.append("\n range in miles: ").append(range).append("\n price $").append(price).append("\n\n");
 		return builder.toString();
 	}
 
@@ -87,6 +88,5 @@ public abstract class Jet {
 		return Objects.equals(model, other.model) && price == other.price && range == other.range
 				&& Double.doubleToLongBits(speed) == Double.doubleToLongBits(other.speed);
 	}
-	
-	
+
 }
